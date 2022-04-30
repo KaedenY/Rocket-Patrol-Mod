@@ -16,6 +16,9 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        //Play Background Music
+        this.sound.play('sfx_play_music');
+
         // place tile sprite for background
         this.background = this.add.tileSprite(0, 0, 640, 480, 'Sky_Background').setOrigin(0, 0);
         //place tile sprite for middle ground
@@ -31,7 +34,9 @@ class Play extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0 ,0);
 
         // add tank_shell (p1)
-        this.p1tank_shell = new tank_shell(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'tank_shell').setOrigin(0.5, 0);
+        this.player1shell = new Tank_Shell(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'tank_shell').setOrigin(0.5, 0);
+        this.player1tank = new Player_Tank(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'player_tank').setOrigin(0.5, 0);
+        this.player1bullets = new Bullets(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'Bullets').setOrigin(0.5, 0);
 
         // add enemy tanks (x3)
         this.ship01 = new Enemy_Tank(this, game.config.width + borderUISize*6, borderUISize*4, 'enemy_tank', 0, 30).setOrigin(0, 0);

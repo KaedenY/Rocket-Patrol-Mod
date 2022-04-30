@@ -8,6 +8,8 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_tank_shell', './assets/tank_firing_shot_sound_effect.wav');
         this.load.audio('sfx_explosion', './assets/Explosion_Sound_Effect.wav');
         this.load.audio('sfx_machine_gun', './assets/Machine_Gun_Sound_Effect.wav');
+        this.load.audio('sfx_play_music', './assets/Kubbi - Digestive biscuit.wav');
+        this.load.audio('sfx_select', './assets/Gamemode Select.wav');
     }
 
     create() {
@@ -26,8 +28,9 @@ class Menu extends Phaser.Scene {
         }
         
         // show menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'Tank Patrol', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2, 'Use ←→ arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/4 - borderUISize - borderPadding, 'Tank Patrol', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2, 'Use ←→ arrows to move', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/3, 'Use (F) to fire cannon and (D) to fire gun', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#FF00FF';
         menuConfig.color = '#000';
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5);
