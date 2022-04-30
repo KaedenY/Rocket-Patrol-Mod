@@ -8,6 +8,7 @@ class Play extends Phaser.Scene {
         this.load.image('Player-Tank', './assets/Player Tank.png');
         this.load.image('Enemy-Tank', './assets/Enemy Tank.png');
         this.load.image('Enemy-Truck', './assets/Enemy Vehicle.png');
+        this.load.image('Bullets', './assets/Bullets.png');
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
@@ -89,7 +90,7 @@ class Play extends Phaser.Scene {
 
         if(!this.gameOver) {
             this.p1Rocket.update();             // update p1
-             this.ship01.update();               // update spaceship (x3)
+            this.ship01.update();               // update spaceship (x3)
             this.ship02.update();
             this.ship03.update();
         }
