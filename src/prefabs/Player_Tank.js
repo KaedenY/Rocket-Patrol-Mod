@@ -6,7 +6,7 @@ class Player_Tank extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);   // add to existing, displayList, updateList
         this.isFiring = false;      // track rocket's firing status
         this.moveSpeed = 2;         // pixels per frame
-        this.sfxRocket = scene.sound.add('sfx_rocket')  // add rocket sfx
+        this.sfxRocket = scene.sound.add('sfx_tank_shell')  // add tank shell firing sound effect
     }
 
     update() {
