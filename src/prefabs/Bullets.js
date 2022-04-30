@@ -6,22 +6,22 @@ class Bullets extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);   // add to existing, displayList, updateList
         this.isFiring = false;      // track rocket's firing status
         this.moveSpeed = 2;         // pixels per frame
-        this.sfxRocket = scene.sound.add('gun-shots')  // add machine gun sfx
+        this.sfxBullets = scene.sound.add('sfx_machine_gun')  // add machine gun sfx
     }
 
     update() {
         // left/right movement
         if(!this.isFiring) {
-            if(keyA.isDown && this.x >= borderUISize + this.width) {
+            if(keyLEFT.isDown && this.x >= borderUISize + this.width) {
                 this.x -= this.moveSpeed;
-            } else if (keyD.isDown && this.x <= game.config.width - borderUISize - this.width) {
+            } else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width) {
                 this.x += this.moveSpeed;
             }
         }
         // fire button
-        if(Phaser.Input.Keyboard.JustDown(keyE) && !this.isFiring) {
+        if(Phaser.Input.Keyboard.JustDown(keyD) && !this.isFiring) {
             this.isFiring = true;
-            this.sfxRocket.play();
+            this.sfxBullets.play();
         }
         // if fired, move up
         if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {

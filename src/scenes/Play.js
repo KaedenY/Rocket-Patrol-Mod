@@ -34,8 +34,8 @@ class Play extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0 ,0);
 
         // add tank_shell (p1)
-        this.player1shell = new Tank_Shell(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'tank_shell').setOrigin(0.5, 0);
-        this.player1tank = new Player_Tank(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'player_tank').setOrigin(0.5, 0);
+        this.player1shell = new Tank_Shell(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'TankShell').setOrigin(0.5, 0);
+        this.player1tank = new Player_Tank(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'PlayerTank').setOrigin(0.5, 0);
         this.player1bullets = new Bullets(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'Bullets').setOrigin(0.5, 0);
 
         // add enemy tanks (x3)
@@ -49,6 +49,9 @@ class Play extends Phaser.Scene {
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
@@ -105,7 +108,9 @@ class Play extends Phaser.Scene {
 
 
         if(!this.gameOver) {
-            this.p1tank_shell.update();             // update p1
+            this.player1tank.update(); 
+            this.player1shell.update(); 
+            this.player1bullets.update();             // update p1
             this.ship01.update();               // update enemy_tank (x3)
             this.ship02.update();
             this.ship03.update();
