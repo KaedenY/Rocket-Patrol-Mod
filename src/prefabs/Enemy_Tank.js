@@ -8,7 +8,7 @@ class Enemy_Tank extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        // move spaceship left
+        // move enemy tank left
         this.x -= this.moveSpeed;
         // wrap around from left edge to right edge
         if(this.x <= 0 - this.width) {
