@@ -10,6 +10,8 @@ class Play extends Phaser.Scene {
         this.load.image('EnemyTruck', './assets/Enemy Vehicle.png');
         this.load.image('Bullets', './assets/Bullets.png');
         this.load.image('TankShell', './assets/Tank Shell.png');
+        this.load.image('Sky_Background', './assets/Sky_Background.png');
+        this.load.image('middleground', './assets/middleground.png');
         
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
@@ -28,30 +30,28 @@ class Play extends Phaser.Scene {
         // green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         // white borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0 ,0);
-        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0 ,0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0 ,0);
-        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0 ,0);
+        this.add.rectangle(0, 0, game.config.width, borderUISize, 0x696969).setOrigin(0 ,0);
+        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0x696969).setOrigin(0 ,0);
+        this.add.rectangle(0, 0, borderUISize, game.config.height, 0x696969).setOrigin(0 ,0);
+        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x696969).setOrigin(0 ,0);
 
-        // add tank_shell (p1)
+        // add Tank_Shell (p1)
         this.player1shell = new Tank_Shell(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'TankShell').setOrigin(0.5, 0);
         this.player1tank = new Player_Tank(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'PlayerTank').setOrigin(0.5, 0);
         this.player1bullets = new Bullets(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'Bullets').setOrigin(0.5, 0);
 
         // add enemy tanks (x3)
-        this.ship01 = new Enemy_Tank(this, game.config.width + borderUISize*6, borderUISize*4, 'enemy_tank', 0, 30).setOrigin(0, 0);
-        this.ship02 = new Enemy_Tank(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'enemy_tank', 0, 20).setOrigin(0,0);
-        this.ship03 = new Enemy_Tank(this, game.config.width, borderUISize*6 + borderPadding*4, 'enemy_tank', 0, 10).setOrigin(0,0);
+        this.ship01 = new Enemy_Tank(this, game.config.width + borderUISize*6, borderUISize*4, 'EnemyTank', 0, 30).setOrigin(0, 0);
+        this.ship02 = new Enemy_Tank(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'EnemyTank', 0, 20).setOrigin(0,0);
+        this.ship03 = new Enemy_Tank(this, game.config.width, borderUISize*6 + borderPadding*4, 'EnemyTank', 0, 10).setOrigin(0,0);
 
         //Add enemy trucks
-        this.truck = new Enemy_Truck(this, game.config.width, borderUISize*6 + borderPadding*4, 'enemy_truck', 0, 10).setOrigin(0,0);
+        this.truck01 = new Enemy_Truck(this, game.config.width, borderUISize*6 + borderPadding*4, 'EnemyTruck', 0, 0).setOrigin(0,0);
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
@@ -114,34 +114,40 @@ class Play extends Phaser.Scene {
             this.ship01.update();               // update enemy_tank (x3)
             this.ship02.update();
             this.ship03.update();
+            this.truck01.update();
         }
 
         // check collisions
-        if(this.checkCollision(this.p1tank_shell, this.ship03)) {
-            this.p1tank_shell.reset();
+        if(this.checkCollision(this.player1shell, this.ship03)) {
+            this.player1shell.reset();
             this.shipExplode(this.ship03);
         }
-        if (this.checkCollision(this.p1tank_shell, this.ship02)) {
-            this.p1tank_shell.reset();
+        if (this.checkCollision(this.player1shell, this.ship02)) {
+            this.player1shell.reset();
             this.shipExplode(this.ship02);
         }
-        if (this.checkCollision(this.p1tank_shell, this.ship01)) {
-            this.p1tank_shell.reset();
+        if (this.checkCollision(this.player1shell, this.ship01)) {
+            this.player1shell.reset();
             this.shipExplode(this.ship01);
+        }
+        if (this.checkCollision(this.player1bullets, this.truck01)) {
+            this.player1bullets.reset();
+            this.shipExplode(this.truck01);
         }
     }
 
-    checkCollision(tank_shell, ship) {
+    checkCollision(Tank_Shell, Enemy_Tank) {
         // simple AABB checking
-        if (tank_shell.x < ship.x + ship.width && 
-            tank_shell.x + tank_shell.width > ship.x && 
-            tank_shell.y < ship.y + ship.height &&
-            tank_shell.height + tank_shell.y > ship. y) {
+        if (Tank_Shell.x < Enemy_Tank.x + Enemy_Tank.width && 
+            Tank_Shell.x + Tank_Shell.width > Enemy_Tank.x && 
+            Tank_Shell.y < Enemy_Tank.y + Enemy_Tank.height &&
+            Tank_Shell.height + Tank_Shell.y > Enemy_Tank. y) {
                 return true;
         } else {
             return false;
         }
     }
+
 
     shipExplode(ship) {
         // temporarily hide ship

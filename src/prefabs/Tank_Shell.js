@@ -7,6 +7,7 @@ class Tank_Shell extends Phaser.GameObjects.Sprite {
         this.isFiring = false;      // track rocket's firing status
         this.moveSpeed = 2;         // pixels per frame
         this.sfxTankShell = scene.sound.add('sfx_tank_shell')  // add tank cannon sfx
+        this.location = x;
     }
 
     update() {
@@ -18,6 +19,7 @@ class Tank_Shell extends Phaser.GameObjects.Sprite {
                 this.x += this.moveSpeed;
             }
         }
+
         // fire button
         if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
             this.isFiring = true;
@@ -26,6 +28,13 @@ class Tank_Shell extends Phaser.GameObjects.Sprite {
         // if fired, move up
         if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
             this.y -= this.moveSpeed + 1;
+        }
+        if(this.isFiring){
+            if(keyLEFT.isDown && this.x >= borderUISize + this.width) {
+                this.location -= this.moveSpeed;
+            } else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width) {
+                this.location += this.moveSpeed;
+            }
         }
         // reset on miss
         if(this.y <= borderUISize * 3 + borderPadding) {
