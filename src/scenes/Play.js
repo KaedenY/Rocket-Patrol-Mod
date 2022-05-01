@@ -36,8 +36,8 @@ class Play extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x696969).setOrigin(0 ,0);
 
         // add Tank_Shell (p1)
-        this.player1shell = new Tank_Shell(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'TankShell').setOrigin(0.5, 0);
         this.player1tank = new Player_Tank(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'PlayerTank').setOrigin(0.5, 0);
+        this.player1shell = new Tank_Shell(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'TankShell').setOrigin(0.5, 0);
         this.player1bullets = new Bullets(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'Bullets').setOrigin(0.5, 0);
 
         // add enemy tanks (x3)
@@ -109,7 +109,7 @@ class Play extends Phaser.Scene {
 
         if(!this.gameOver) {
             this.player1tank.update(); 
-            this.player1shell.update(); 
+            this.player1shell.update();
             this.player1bullets.update();             // update p1
             this.ship01.update();               // update enemy_tank (x3)
             this.ship02.update();
@@ -121,18 +121,22 @@ class Play extends Phaser.Scene {
         if(this.checkCollision(this.player1shell, this.ship03)) {
             this.player1shell.reset();
             this.shipExplode(this.ship03);
+            this.player1shell.x = this.player1tank.x;
         }
         if (this.checkCollision(this.player1shell, this.ship02)) {
             this.player1shell.reset();
             this.shipExplode(this.ship02);
+            this.player1shell.x = this.player1tank.x;
         }
         if (this.checkCollision(this.player1shell, this.ship01)) {
             this.player1shell.reset();
             this.shipExplode(this.ship01);
+            this.player1shell.x = this.player1tank.x;
         }
         if (this.checkCollision(this.player1bullets, this.truck01)) {
             this.player1bullets.reset();
             this.shipExplode(this.truck01);
+            this.player1bullets.x = this.player1tank.x;
         }
     }
 

@@ -7,6 +7,7 @@ class Bullets extends Phaser.GameObjects.Sprite {
         this.isFiring = false;      // track rocket's firing status
         this.moveSpeed = 2;         // pixels per frame
         this.sfxBullets = scene.sound.add('sfx_machine_gun')  // add machine gun sfx
+        this.location = x;
     }
 
     update() {
@@ -27,6 +28,15 @@ class Bullets extends Phaser.GameObjects.Sprite {
         if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
             this.y -= this.moveSpeed + 5;
         }
+
+        //get current location of tank
+        if(keyLEFT.isDown && this.location >= borderUISize + this.width) {
+            this.location -= this.moveSpeed;
+        }
+        if (keyRIGHT.isDown && this.location <= game.config.width - borderUISize - this.width) {
+            this.location += this.moveSpeed;
+        }
+
         // reset on miss
         if(this.y <= borderUISize * 3 + borderPadding) {
             this.reset();
@@ -37,5 +47,6 @@ class Bullets extends Phaser.GameObjects.Sprite {
     reset() {
         this.isFiring = false;
         this.y = game.config.height - borderUISize - borderPadding;
+        this.x = this.location;
     }
 }

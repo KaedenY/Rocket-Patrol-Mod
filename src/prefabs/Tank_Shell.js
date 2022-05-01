@@ -29,12 +29,13 @@ class Tank_Shell extends Phaser.GameObjects.Sprite {
         if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
             this.y -= this.moveSpeed + 1;
         }
-        if(this.isFiring){
-            if(keyLEFT.isDown && this.x >= borderUISize + this.width) {
+
+        //get current location of tank
+        if(keyLEFT.isDown && this.location >= borderUISize + this.width) {
                 this.location -= this.moveSpeed;
-            } else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width) {
+        }
+        if (keyRIGHT.isDown && this.location <= game.config.width - borderUISize - this.width) {
                 this.location += this.moveSpeed;
-            }
         }
         // reset on miss
         if(this.y <= borderUISize * 3 + borderPadding) {
@@ -46,5 +47,6 @@ class Tank_Shell extends Phaser.GameObjects.Sprite {
     reset() {
         this.isFiring = false;
         this.y = game.config.height - borderUISize - borderPadding;
+        this.x = this.location;
     }
 }

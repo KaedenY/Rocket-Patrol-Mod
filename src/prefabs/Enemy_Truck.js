@@ -9,7 +9,7 @@ class Enemy_Truck extends Phaser.GameObjects.Sprite {
 
     update() {
         // move truck left
-        this.x -= this.moveSpeed - 5;
+        this.x -= this.moveSpeed + 2;
         // wrap around from left edge to right edge
         if(this.x <= 0 - this.width) {
             this.reset();
