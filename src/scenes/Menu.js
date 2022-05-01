@@ -17,8 +17,8 @@ class Menu extends Phaser.Scene {
         let menuConfig = {
             fontFamily: 'Times New Roman',
             fontSize: '26px',
-            backgroundColor: '#8A2BE2',
-            color: '#000000',
+            backgroundColor: '#8A2BE2', //grey background
+            color: '#000000', //Black background
             align: 'center',
             padding: {
                 top: 5,
@@ -45,7 +45,7 @@ class Menu extends Phaser.Scene {
           // Novice mode
           game.settings = {
             spaceshipSpeed: 3,
-            gameTimer: 60000    
+            gameTimer: 60000   
           }
           this.sound.play('sfx_select');
           this.scene.start("playScene");    

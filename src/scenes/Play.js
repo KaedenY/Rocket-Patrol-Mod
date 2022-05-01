@@ -28,7 +28,7 @@ class Play extends Phaser.Scene {
 
 
         // green UI background
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
+        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0xFF00FF).setOrigin(0, 0);
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0x696969).setOrigin(0 ,0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0x696969).setOrigin(0 ,0);
@@ -64,12 +64,13 @@ class Play extends Phaser.Scene {
 
         // initialize score
         this.p1Score = 0;
+        this.highScore = 0;
 
         // display score
         let scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
+            backgroundColor: '#000000',
             color: '#843605',
             align: 'right',
             padding: {
@@ -78,12 +79,28 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
+
+        //Display Time
+        let timeConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#000000',
+            color: '#843605',
+            align: 'left',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 0
+        }
+
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+        this.timeLeft = this.add.text(borderUISize + borderPadding + 150, borderUISize + borderPadding*2, game.settings.gameTimer, timeConfig);
 
         // GAME OVER flag
         this.gameOver = false;
 
-        // 60-second play clock
+        // 60 or 45 second play clock
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
@@ -93,6 +110,7 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+        
         // check key input for restart / menu
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
@@ -136,6 +154,7 @@ class Play extends Phaser.Scene {
         if (this.checkCollision(this.player1bullets, this.truck01)) {
             this.player1bullets.reset();
             this.shipExplode(this.truck01);
+            this.addTime();
             this.player1bullets.x = this.player1tank.x;
         }
     }
@@ -152,6 +171,10 @@ class Play extends Phaser.Scene {
         }
     }
 
+    //Adds time to the timer
+    addTime(){
+        game.settings.gameTimer = game.settings.gameTimer + 5000;
+    }
 
     shipExplode(ship) {
         // temporarily hide ship
@@ -167,7 +190,8 @@ class Play extends Phaser.Scene {
         // score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score; 
-        //
+        if(ship)
+        //Plays explosion sound effect
         this.sound.play('sfx_explosion');
       }
 }
